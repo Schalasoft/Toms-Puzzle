@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using Toms_Puzzle.Decoders;
@@ -7,74 +8,40 @@ namespace Toms_Puzzle.Layers
 {
     class Layer1
     {
-        // Flip bits, right-shift, and decode
-        public static string DecodeLayer1(string layer, IDecoder decoder)
+        // Decode, then Flip bits, followed by a right-shift
+        public static string DecodeLayer1(string payload, IDecoder decoder)
         {
-            StringBuilder payload = new StringBuilder();
-            for (int i = 0; i < layer.Length; i++)
+            // Decode the payload
+            byte[] bytes = decoder.Decode(payload).ToArray();
+
+            // Create a bitmask to only flip every second bit (read from right to left, true means flip that bit)
+            BitArray flipMask = new BitArray(new bool[8] { true, false, true, false, true, false, true, false });
+
+            // Manipulate the bytes
+            byte[] output = new byte[bytes.Length];
+            for (int i = 0; i < bytes.Length; i++)
             {
-                // Get the int value of the char
-                byte byteVal = (byte)layer[i];
-                int intVal = (int)byteVal;
+                // Put byte into a size 1 bit array
+                BitArray bitArray = new BitArray(new byte[1] { bytes[i] });
 
-                // Convert to binary string
-                string binary = Convert.ToString(intVal, 2);
+                // Flip every second bit using flip mask
+                bitArray = bitArray.Xor(flipMask);
 
-                // Convert to bool array
-                bool[] bits = binary.Select(b => b == '1').ToArray();
+                // Take a copy of the last bit as this will be lost on a right shift
+                bool lastBit = bitArray[0];
 
-                // Flip the bits
-                byte[] flipped = FlipBits(bits);
+                // Right shift the array by 1 position
+                bitArray = bitArray.RightShift(1);
 
-                // Right shift the bits
-                byte[] rightShifted = RightShiftBits(flipped);
+                // Put the last bit in the first position (wrapping around)
+                bitArray[bitArray.Length - 1] = lastBit; 
 
-                // Add to payload
-                string converted = Encoding.ASCII.GetString(rightShifted);//, 0, rightShifted.Length); // CDG I believe this convert is going wrong because flip bits and right shift appear to be working
-                payload.Append(converted);
+                // Copy flipped and shifted array to the output array
+                bitArray.CopyTo(output, i);
             }
 
-            // Decode payload
-            string ascii = decoder.Decode(payload.ToString());
-
-            return ascii;
-        }
-
-        // Flip every second bit e.g 110000 becomes 100101
-        private static byte[] FlipBits(bool[] bits)
-        {
-            byte[] result = new byte[bits.Length];
-
-            // Flip every second bit
-            for (int i = 0; i < bits.Length; i++)
-            {
-                if (i != 0 && ((i + 1) % 2) == 0) // Every 2nd bit is flipped
-                {
-                    bool bit = bits[i];
-                    bool flip = bit ^ true;
-                    result[i] = Convert.ToByte(flip); // Add bit and use mask of 1/true to flip bit using XOR
-                }
-                else
-                    result[i] = Convert.ToByte(bits[i]); // Add bit
-            }
-
-            return result;
-        }
-
-        // Right shift bits e.g 100101 becomes 110010
-        private static byte[] RightShiftBits(byte[] bits)
-        {
-            byte[] result = new byte[bits.Length];
-
-            // Start at first bit, make result bit equal to bit left of its index
-            for (int i = 0; i < bits.Length; i++)
-            {
-                int index = i - 1;
-                if (index < 0)
-                    index = bits.Length - 1; // If grabbing from the left at 0 we grab the last bit (wrap around)
-
-                result[i] = bits[index]; // Grab the bit to the left
-            }
+            // Convert to string
+            string result = Encoding.ASCII.GetString(output, 0, output.Length);
 
             return result;
         }

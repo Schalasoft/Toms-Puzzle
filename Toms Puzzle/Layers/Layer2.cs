@@ -1,14 +1,17 @@
-﻿using Toms_Puzzle.Decoders;
+﻿using System;
+using Toms_Puzzle.Decoders;
 
 namespace Toms_Puzzle.Layers
 {
     class Layer2
     {
-        public static string DecodeLayer2(string layer, IDecoder decoder)
+        public static string DecodeLayer2(string payload, IDecoder decoder)
         {
-            string ascii = "";
+            Span<byte> bytes = decoder.Decode(payload);
 
-            return ascii;
+            string result = "";
+
+            return result;
         }
     }
 }

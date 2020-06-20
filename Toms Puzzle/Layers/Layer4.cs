@@ -6,9 +6,9 @@ namespace Toms_Puzzle.Layers
     {
         public static string DecodeLayer4(string layer, IDecoder decoder)
         {
-            string ascii = "";
+            string result = "";
 
-            return ascii;
+            return result;
         }
     }
 }

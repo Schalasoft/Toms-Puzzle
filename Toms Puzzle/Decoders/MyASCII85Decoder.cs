@@ -8,7 +8,7 @@ namespace Toms_Puzzle.Decoders
     class MyASCII85Decoder : IDecoder
     {
         // Convert ASCII85 to ASCII
-        public string Decode(string payload)
+        public Span<Byte> Decode(string payload)
         {
             // Base
             List<int> baseValues = Helper.GetBaseValues(payload);
@@ -22,7 +22,8 @@ namespace Toms_Puzzle.Decoders
             Console.WriteLine(string.Join(",", bitValues.ToArray()) + Environment.NewLine);
 
             // ASCII (from bit patterns)
-            return Helper.GetBitPatterns(bitValues);
+            //return Helper.GetBitPatterns(bitValues);
+            return new Span<byte>();
         }
     }
 
@@ -143,7 +144,7 @@ namespace Toms_Puzzle.Decoders
             return text;
         }
 
-        // Get byte representation from binary string, add on leading zeros if necessary
+        // Get byte representation from binary string
         public static Byte[] GetBytesFromBinaryString(String binary)
         {
             var list = new List<Byte>();

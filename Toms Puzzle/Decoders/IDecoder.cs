@@ -1,7 +1,9 @@
-﻿namespace Toms_Puzzle.Decoders
+﻿using System;
+
+namespace Toms_Puzzle.Decoders
 {
     public interface IDecoder
     {
-        string Decode(string payload);
+        Span<byte> Decode(string payload);
     }
 }

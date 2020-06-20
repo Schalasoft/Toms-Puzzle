@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using Toms_Puzzle.Decoders;
 using static Toms_Puzzle.Layers.Layer0;
@@ -46,33 +48,33 @@ namespace Toms_Puzzle
         // Decode a single layer
         private static void DecodeLayer(int index, string data, string outputData, IDecoder decoder)
         {
-            string layer = GetPayload(data);
+            string payload = GetPayload(data);
 
             string output = "";
             switch(index)
             {
                 case 0:
-                    output = DecodeLayer0(layer, decoder);
+                    output = DecodeLayer0(payload, decoder);
                     break;
 
                 case 1:
-                    output = DecodeLayer1(layer, decoder);
+                    output = DecodeLayer1(payload, decoder);
                     break;
 
                 case 2:
-                    output = DecodeLayer2(layer, decoder);
+                    output = DecodeLayer2(payload, decoder);
                     break;
 
                 case 3:
-                    output = DecodeLayer3(layer, decoder);
+                    output = DecodeLayer3(payload, decoder);
                     break;
 
                 case 4:
-                    output = DecodeLayer4(layer, decoder);
+                    output = DecodeLayer4(payload, decoder);
                     break;
 
                 case 5:
-                    output = DecodeLayer5(layer, decoder);
+                    output = DecodeLayer5(payload, decoder);
                     break;
             }
 
@@ -91,6 +93,18 @@ namespace Toms_Puzzle
             payload = payload.Replace("\n", "").Replace("\r", "");
 
             return payload;
+        }
+
+        // Helper method to visualize bits in a byte array
+        public static string BitArrayToBinaryString(BitArray bitArray)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (Object bit in bitArray)
+            {
+                sb.Append((bool)bit == true ? "1" : "0");
+            }
+
+            return sb.ToString();
         }
     }
 }

@@ -4,11 +4,11 @@ namespace Toms_Puzzle.Layers
 {
     class Layer3
     {
-        public static string DecodeLayer3(string layer, IDecoder decoder)
+        public static string DecodeLayer3(string payload, IDecoder decoder)
         {
-            string ascii = "";
+            string result = "";
 
-            return ascii;
+            return result;
         }
     }
 }

@@ -50,3 +50,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+Toms Puzzle/obj/Debug/netcoreapp3.1/Toms Puzzle.csprojAssemblyReference.cache
+.vs/Toms Puzzle/v16/.suo

@@ -1,4 +1,5 @@
-﻿using Toms_Puzzle.Decoders;
+﻿using System;
+using Toms_Puzzle.Decoders;
 
 namespace Toms_Puzzle.Layers
 {
@@ -7,9 +8,11 @@ namespace Toms_Puzzle.Layers
         // Straight decode
         public static string DecodeLayer0(string payload, IDecoder decoder)
         {
-            string ascii = decoder.Decode(payload);
+            Span<byte> bytes = decoder.Decode(payload);
 
-            return ascii;
+            string result = System.Text.Encoding.Default.GetString(bytes);
+
+            return result;
         }
     }
 }
