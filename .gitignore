@@ -73,3 +73,5 @@ Toms Puzzle/obj/Toms Puzzle.csproj.nuget.dgspec.json
 *.cache
 *.v2
 .vs/Toms Puzzle/v16/.suo
+*.cache
+.vs/Toms Puzzle/v16/.suo
