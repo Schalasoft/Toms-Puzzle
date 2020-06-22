@@ -13,10 +13,9 @@ using static Toms_Puzzle.Layers.Layer5;
 
 namespace Toms_Puzzle
 {
+    // Tom's Data Onion
     class Program
     {
-        // Tom's Data Onion
-
         // File variables
         static string Directory = "..\\..\\..\\Data\\";
         private static string[] layerData = { "Layer0.txt", "Layer1.txt", "Layer2.txt", "Layer3.txt", "Layer4.txt", "Layer5.txt", "TheCore.txt" };

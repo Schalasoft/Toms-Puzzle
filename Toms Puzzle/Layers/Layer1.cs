@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
+﻿using System.Collections;
 using System.Text;
 using Toms_Puzzle.Decoders;
 
@@ -14,11 +12,22 @@ namespace Toms_Puzzle.Layers
             // Decode the payload
             byte[] bytes = decoder.Decode(payload).ToArray();
 
+            // Perform bit manipulations
+            byte[] output = FlipRightShift(bytes);
+
+            // Convert to string
+            string result = Encoding.ASCII.GetString(output, 0, output.Length);
+
+            return result;
+        }
+
+        private static byte[] FlipRightShift(byte[] bytes)
+        {
             // Create a bitmask to only flip every second bit (read from right to left, true means flip that bit)
             BitArray flipMask = new BitArray(new bool[8] { true, false, true, false, true, false, true, false });
 
             // Manipulate the bytes
-            byte[] output = new byte[bytes.Length];
+            byte[] result = new byte[bytes.Length];
             for (int i = 0; i < bytes.Length; i++)
             {
                 // Put byte into a size 1 bit array
@@ -34,14 +43,11 @@ namespace Toms_Puzzle.Layers
                 bitArray = bitArray.RightShift(1);
 
                 // Put the last bit in the first position (wrapping around)
-                bitArray[bitArray.Length - 1] = lastBit; 
+                bitArray[bitArray.Length - 1] = lastBit;
 
                 // Copy flipped and shifted array to the output array
-                bitArray.CopyTo(output, i);
+                bitArray.CopyTo(result, i);
             }
-
-            // Convert to string
-            string result = Encoding.ASCII.GetString(output, 0, output.Length);
 
             return result;
         }

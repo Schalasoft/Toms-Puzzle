@@ -1,12 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "YP9G8C+69NR1FnvYsHZiUeA8F0ZL7nRhBrq5EHj2efj1FhYB4WbNNvfX8PwLVehcxPb3gReR5P+RgfDrW7VExA==",
+  "dgSpecHash": "C4m/gqto6PAJ6RAGCgolwmCA4efsM5+Hq8/HW0aeXQy5FWfuT9JADWMMt1AgUp+FhNQb2fkKAsAIyhzg/tI43A==",
   "success": true,
   "projectFilePath": "C:\\Users\\cdoherty\\source\\repos\\Toms Puzzle\\Toms Puzzle\\Toms Puzzle.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\cdoherty\\.nuget\\packages\\simplebase\\3.0.1\\simplebase.3.0.1.nupkg.sha512",
-    "C:\\Users\\cdoherty\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
-    "C:\\Users\\cdoherty\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.2\\microsoft.aspnetcore.app.ref.3.1.2.nupkg.sha512"
+    "C:\\Users\\cdoherty\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
   ],
   "logs": []
 }
