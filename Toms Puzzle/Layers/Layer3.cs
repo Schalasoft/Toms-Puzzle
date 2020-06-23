@@ -49,7 +49,7 @@ namespace Toms_Puzzle.Layers
         private static byte[] DetermineCycledKey(byte[] bytes)
         {
             // Data we expect to be in the payload (32 chars)
-            string expectedSequence = "--------------------------------";
+            const string expectedSequence = "--------------------------------";
 
             // XOR the first 32 bytes with the expected 32 byte sequence
             byte[] expectedKey = DetermineCycledKeyUsingExpected(bytes, expectedSequence);
@@ -63,7 +63,7 @@ namespace Toms_Puzzle.Layers
             string partialDecryptionText = Encoding.ASCII.GetString(expectedBytes, 0, expectedBytes.Length);
 
             // Data we know is in the partial decryption from the payload
-            string knownSequence = "==[ Layer ";
+            const string knownSequence = "==[ Layer ";
 
             // Get the initial index
             int index = partialDecryptionText.IndexOf(knownSequence);
