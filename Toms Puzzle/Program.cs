@@ -93,17 +93,5 @@ namespace Toms_Puzzle
 
             return payload;
         }
-
-        // Helper method to visualize bits in a byte array
-        public static string BitArrayToBinaryString(BitArray bitArray)
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (Object bit in bitArray)
-            {
-                sb.Append((bool)bit == true ? "1" : "0");
-            }
-
-            return sb.ToString();
-        }
     }
 }
