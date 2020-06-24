@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "C4m/gqto6PAJ6RAGCgolwmCA4efsM5+Hq8/HW0aeXQy5FWfuT9JADWMMt1AgUp+FhNQb2fkKAsAIyhzg/tI43A==",
+  "dgSpecHash": "t0gjSqNy1q3Tmvucc46E9ZyrmlnoKR9iMkMGgHWZxxT4oNj37oYpvFmMz5+DDklxbYL5y8YcTxsclNWloGk+Lg==",
   "success": true,
   "projectFilePath": "C:\\Users\\cdoherty\\source\\repos\\Toms Puzzle\\Toms Puzzle\\Toms Puzzle.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\cdoherty\\.nuget\\packages\\bouncycastle.netcore\\1.8.6\\bouncycastle.netcore.1.8.6.nupkg.sha512",
     "C:\\Users\\cdoherty\\.nuget\\packages\\simplebase\\3.0.1\\simplebase.3.0.1.nupkg.sha512",
     "C:\\Users\\cdoherty\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
   ],
