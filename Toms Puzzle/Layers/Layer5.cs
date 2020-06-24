@@ -7,6 +7,12 @@ namespace Toms_Puzzle.Layers
 {
     class Layer5
     {
+        // Properties
+        public static byte[] KeyEncryptingKey { get; private set; }
+        public static byte[] InitializationVector { get; private set; }
+        public static byte[] EncryptionKey { get; private set; }
+        public static byte[] EncryptionInitializationVector { get; private set; }
+
         public static string DecodeLayer5(string payload, IDecoder decoder)
         {
             // Decode
@@ -32,20 +38,20 @@ namespace Toms_Puzzle.Layers
         {
             // Get 256-bit Key Encrypting Key (32 bytes)
             int kekSize = 32;
-            byte[] kek = GetBytes(stream, kekSize);
+            KeyEncryptingKey = GetBytes(stream, kekSize);
 
             // Get 64-bit Initialization Vector (8 bytes)
             int ivSize = 8;
-            byte[] iv = GetBytes(stream, ivSize);
+            InitializationVector = GetBytes(stream, ivSize);
 
             // Get the wrapped (encrypted) key (40 bytes)
             // When unwrapped this will become the 256-bit Encryption Key
             int ekSize = 40;
-            byte[] ek = GetBytes(stream, ekSize);
+            EncryptionKey = GetBytes(stream, ekSize);
 
             // Get the 128-bit Initialization Vector for the encrypted payload (16 bytes)
             int eivSize = 16;
-            byte[] eiv = GetBytes(stream, eivSize);
+            EncryptionInitializationVector = GetBytes(stream, eivSize);
         }
 
         // Get the encrypted payload from memory stream
