@@ -87,7 +87,7 @@ namespace Toms_Puzzle.Decoders
         }
 
         // Returns a single summed bit value in a set of 5, used with GetBitValues, power is used as each bit must be multipled by an exponent
-        // Return 33 if the operation fails (lowest ASCII85 value) // CDG may change when fixed
+        // Return 33 if the operation fails (lowest ASCII85 value) // CDG change when fixed
         private static Int32 GetBitValue(Int32 value, int power)
         {
             Int32 result = 33;

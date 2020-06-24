@@ -68,7 +68,7 @@ namespace Toms_Puzzle.Utilities
 
             // Get the payload data from the UDP
             int dataLength = udpTotalLength - UDPHeaderLength; // Subtract size of header (8) from the overall size of the header
-            if (dataLength < 0) return; // No meaningful data? abort (CDG this may be corrupting the payload as warned, need to investigate)
+            if (dataLength < 0) return; // No meaningful data, abort
             this.Data = GetBytes(stream, dataLength);
 
             // Get UDP data for checksum (consists of IP psuedo header, UDP header, and data)
