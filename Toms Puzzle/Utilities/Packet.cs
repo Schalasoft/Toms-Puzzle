@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using static Toms_Puzzle.Utilities.ByteConverter;
 
 namespace Toms_Puzzle.Utilities
 {
@@ -153,16 +151,6 @@ namespace Toms_Puzzle.Utilities
                 return true;
             else
                 return false;
-        }
-
-        // Consume and return bytes from a memory stream
-        private static byte[] GetBytes(MemoryStream stream, int length)
-        {
-            // Consume bytes from the memory stream
-            byte[] bytes = new byte[length];
-            stream.Read(bytes, 0, length);
-
-            return bytes;
         }
 
         // Consume and return an unsigned int 16 from memory stream

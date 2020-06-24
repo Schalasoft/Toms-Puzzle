@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Toms_Puzzle.Decoders;
+using static Toms_Puzzle.Utilities.ByteConverter;
 
 namespace Toms_Puzzle.Layers
 {
@@ -31,24 +32,20 @@ namespace Toms_Puzzle.Layers
         {
             // Get 256-bit Key Encrypting Key (32 bytes)
             int kekSize = 32;
-            byte[] kek = new byte[kekSize];
-            stream.Read(kek, 0, kekSize);
+            byte[] kek = GetBytes(stream, kekSize);
 
             // Get 64-bit Initialization Vector (8 bytes)
             int ivSize = 8;
-            byte[] iv = new byte[ivSize];
-            stream.Read(iv, 0, ivSize);
+            byte[] iv = GetBytes(stream, ivSize);
 
             // Get the wrapped (encrypted) key (40 bytes)
             // When unwrapped this will become the 256-bit Encryption Key
             int ekSize = 40;
-            byte[] ek = new byte[ekSize];
-            stream.Read(ek, 0, ekSize);
+            byte[] ek = GetBytes(stream, ekSize);
 
             // Get the 128-bit Initialization Vector for the encrypted payload (16 bytes)
             int eivSize = 16;
-            byte[] eiv = new byte[eivSize];
-            stream.Read(eiv, 0, eivSize);
+            byte[] eiv = GetBytes(stream, eivSize);
         }
 
         // Get the encrypted payload from memory stream

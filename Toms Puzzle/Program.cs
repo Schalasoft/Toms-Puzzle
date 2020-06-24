@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Text.RegularExpressions;
 using Toms_Puzzle.Decoders;
 using static Toms_Puzzle.Layers.Layer0;
