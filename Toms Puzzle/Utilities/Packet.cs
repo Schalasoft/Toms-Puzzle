@@ -51,24 +51,40 @@ namespace Toms_Puzzle.Utilities
             // Get IPv4 Header properties (20 bytes)
             byte[] IPHeader = ByteArrayFromMemoryStream(stream, IPHeaderLength); // Store the full header for checksum validation
             MemoryStream IPHeaderStream = new MemoryStream(IPHeader);
-            GetBytes(IPHeaderStream, 12); // Version to Checksum (remove bytes we don't care about)
-            this.SourceIP = GetIP(GetBytes(IPHeaderStream, 4));
-            this.DestinationIP = GetIP(GetBytes(IPHeaderStream, 4));
+            GetBytes(IPHeaderStream, 9); // Version to Time to Live (remove bytes we don't care about)
+            byte[] protocolBytes = GetBytes(IPHeaderStream, 1);
+            GetBytes(IPHeaderStream, 2);
+            byte[] sourceIPBytes = GetBytes(IPHeaderStream, 4);
+            this.SourceIP = GetIP(sourceIPBytes);
+            byte[] destinationIPBytes = GetBytes(IPHeaderStream, 4);
+            this.DestinationIP = GetIP(destinationIPBytes);
 
             // Get UDP Header properties (8 bytes)
             byte[] UDPHeader = ByteArrayFromMemoryStream(stream, UDPHeaderLength);
             MemoryStream UDPHeaderStream = new MemoryStream(UDPHeader);
             GetBytes(UDPHeaderStream, 2); // Source Port
             this.DestinationPort = GetUInt16(UDPHeaderStream);
-            int udpTotalLength = GetUInt16(UDPHeaderStream);
+            byte[] udpTotalLengthBytes = GetBytes(UDPHeaderStream, 2);
+            int udpTotalLength = GetUInt16(new MemoryStream(udpTotalLengthBytes));
             GetBytes(UDPHeaderStream, 2); // UDP Checksum
 
-            // Get the data from the UDP
+            // Get the payload data from the UDP
             int dataLength = udpTotalLength - UDPHeaderLength; // Subtract size of header (8) from the overall size of the header
+            if (dataLength < 0) return; // No meaningful data? abort (CDG this may be corrupting the payload as warned, need to investigate)
             this.Data = GetBytes(stream, dataLength);
 
-            // Set packet validity flag based on rules
-            ValidatePacket(IPHeader, UDPHeader);
+            // Get UDP data for checksum (consists of IP psuedo header, UDP header, and data)
+            int checksumDataLength = udpTotalLength + UDPHeaderLength + 4; // 4 is for the pseudo IP header values (source, destination, protocol, udp length)
+            byte[] UDPChecksumData = new byte[checksumDataLength];
+            sourceIPBytes.CopyTo(UDPChecksumData, 0);        // 4 bytes
+            destinationIPBytes.CopyTo(UDPChecksumData, 4);   // 4 bytes
+            protocolBytes.CopyTo(UDPChecksumData, 9);        // 1 byte
+            udpTotalLengthBytes.CopyTo(UDPChecksumData, 10); // 2 bytes
+            UDPHeader.CopyTo(UDPChecksumData, 12);           // 8 bytes
+            this.Data.CopyTo(UDPChecksumData, 20);           // Variable
+
+            // Set packet validity flag based on several rules
+            ValidatePacket(IPHeader, UDPChecksumData);
         }
 
         // Checks that the packet is correct based on several factors
@@ -114,17 +130,23 @@ namespace Toms_Puzzle.Utilities
             while(stream.Position < stream.Length)
                 sum += GetUInt16(stream);
 
-            // First byte is the carry bits
-            // Get carry value by doing a right shift on the sum to move 
-            // the 2 carry bits to the end of the sequence
-            // This has the side effect of zeroing bits 0 to 14 so we can add it to sum correctly
-            int carry = sum >> 16;
+            // We have carry bits
+            if (sum > UInt16.MaxValue)
+            {
+                // First byte is the carry bits
+                // Get carry value by doing a right shift on the sum to move the carry bit to the end of the sequence 
+                // This has the side effect of zeroing bits 0 to 15 so we can add it to sum correctly
+                int carry = sum >> 16;
 
-            // Add carry value to the sum
-            sum += carry;
+                // Get the remainder as the sum is larger than the max value of a UInt16
+                sum %= UInt16.MaxValue + 1;
+
+                // Add carry value to the sum
+                sum += carry;
+            }
 
             // Ones complement (XOR by max value of UInt16 i.e. all bits are 1 to invert)
-            int onesComplement = sum ^ UInt16.MaxValue;
+            int onesComplement = sum ^ UInt16.MaxValue; // Could just check if sum equals max but we'll keep it as per the IPv4 specification
 
             // If ones complement is 0 then the header is valid
             if (onesComplement == 0)
@@ -162,7 +184,7 @@ namespace Toms_Puzzle.Utilities
         // Returns the formatted IP address string from the IP address bytes
         private string GetIP(byte[] bytes)
         {
-            // Get Source IP
+            // Format IP
             return $"{bytes[0]}.{bytes[1]}.{bytes[2]}.{bytes[3]}";
         }
     }

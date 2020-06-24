@@ -10,6 +10,7 @@ namespace Toms_Puzzle.Layers
     // Decode class
     class Layer4
     {
+        // Decode the layer
         public static string DecodeLayer4(string payload, IDecoder decoder)
         {
             // Decode
@@ -17,27 +18,18 @@ namespace Toms_Puzzle.Layers
             byte[] bytes = decodedBytes.ToArray();
 
             // Get the payloads from the packets
-            List<byte[]> payloads = ExtractPayloads(bytes);
-
-            // Determine the size of the combined payload array // CDG I dont like this method
-            int combinedPayloadLength = 0;
-            foreach (byte[] packetPayload in payloads)
-                combinedPayloadLength += packetPayload.Length;
+            List<byte[]> packetPayloads = ExtractPayloads(bytes);
 
             // Combine the payloads
-            byte[] combinedPayload = new byte[combinedPayloadLength];
-            int currentIndex = 0;
-            for(int i = 0; i < payloads.Count; i++)
+            List<byte> combinedPayload = new List<byte>();
+            foreach(byte[] packetPayload in packetPayloads)
             {
-                // Copy in packet payload to combine payload at the correst index
-                payloads[i].CopyTo(combinedPayload, currentIndex);
-
-                // Increment the index by the length of the packet payload
-                currentIndex = payloads[i].Length;
+                // Add payload to combined payload
+                combinedPayload.AddRange(packetPayload);
             }
             
             // Convert to string
-            string result = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
+            string result = Encoding.ASCII.GetString(combinedPayload.ToArray(), 0, combinedPayload.Count);
 
             return result;
         }
