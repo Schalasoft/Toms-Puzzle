@@ -40,7 +40,6 @@ namespace Toms_Puzzle.Decoders
                 {
                     // Pad end value with zero bytes as we ignore them
                     ascii85 = text.Substring(i, text.Length - i);
-                    //ascii85 = ascii85.PadRight(5, 'u');
                     ascii85 += "YkO"; // These values will zero out the first 3 bytes in the bit value
                 }
 
@@ -106,7 +105,7 @@ namespace Toms_Puzzle.Decoders
                     right = Math.Pow(85, power);
 
                 double sum = left * right;
-                if (sum != 0) result = Convert.ToInt32(sum);
+                result = Convert.ToInt32(sum);
             }
             catch (OverflowException)
             {
