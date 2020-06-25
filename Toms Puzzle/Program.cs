@@ -24,8 +24,8 @@ namespace Toms_Puzzle
         static Program()
         {
             // Setup the decoder to be used
-            puzzleDecoder = DecoderFactory.CreateSimpleBaseLogger();   // SimpleBase decoder
-            //puzzleDecoder = DecoderFactory.CreateMyASCII85Decoder(); // My decoder
+            puzzleDecoder = DecoderFactory.CreateSimpleBaseDecoder();   // SimpleBase decoder
+            //puzzleDecoder = DecoderFactory.CreateASCII85Decoder();        // My decoder
         }
 
         // Main entry point

@@ -2,14 +2,14 @@
 {
     static class DecoderFactory
     {
-        public static IDecoder CreateSimpleBaseLogger()
+        public static IDecoder CreateSimpleBaseDecoder()
         {
             return new SimpleBaseDecoder();
         }
 
-        public static IDecoder CreateMyASCII85Decoder()
+        public static IDecoder CreateASCII85Decoder()
         {
-            return new MyASCII85Decoder();
+            return new ASCII85Decoder();
         }
     }
 }
