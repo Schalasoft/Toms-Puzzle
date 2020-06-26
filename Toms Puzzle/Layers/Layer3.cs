@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using Toms_Puzzle.Decoders;
+using static Toms_Puzzle.Utilities.ExtensionMethods;
 
 namespace Toms_Puzzle.Layers
 {
@@ -109,11 +110,8 @@ namespace Toms_Puzzle.Layers
             BitArray partB = new BitArray(new byte[1] { b });
             BitArray partC = partA.Xor(partB);
 
-            // Convert to byte array
-            byte[] c = new byte[1];
-            partC.CopyTo(c, 0);
-
-            return c[0];
+            // Convert to byte
+            return partC.GetByte();
         }
     }
 }
