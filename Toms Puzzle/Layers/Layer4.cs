@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Toms_Puzzle.Decoders;
 using Toms_Puzzle.Utilities;
@@ -15,10 +16,9 @@ namespace Toms_Puzzle.Layers
         {
             // Decode
             Span<byte> decodedBytes = decoder.Decode(payload);
-            byte[] bytes = decodedBytes.ToArray();
 
             // Get the payloads from the packets
-            List<byte[]> packetPayloads = ExtractPayloads(bytes);
+            List<byte[]> packetPayloads = ExtractPayloads(decodedBytes.ToArray());
 
             // Combine the payloads
             List<byte> combinedPayload = new List<byte>();
