@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 
-// CDG Needs cleaned up, doing a lot of bad practices to get the decoding working inititally : Make it work, make it right, make it fast
 namespace Toms_Puzzle.Decoders
 {
     class ASCII85Decoder : IDecoder
