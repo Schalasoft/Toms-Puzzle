@@ -15,11 +15,7 @@ namespace Toms_Puzzle.Decoders
             // Get the ascii bytes from the ASCII85 payload
             Span<byte> ascii = DecodeASCII85ToASCII(payload);
 
-            // Return bytes
-            byte[] bytes = new byte[ascii.Length];
-            Buffer.BlockCopy(ascii.ToArray(), 0, bytes, 0, bytes.Length);
-
-            return new Span<byte>(bytes);
+            return ascii;
         }
 
         // Convert ASCII85 to ASCII
@@ -35,7 +31,7 @@ namespace Toms_Puzzle.Decoders
             {
                 string ascii85 = "";
 
-                // If we aren't as the end of the text
+                // If we aren't at the end of the text
                 if(i + 5 < text.Length)
                 {
                     // Get 5 characters
@@ -101,20 +97,22 @@ namespace Toms_Puzzle.Decoders
             return bitValue;
         }
 
-        // Returns a single summed bit value in a set of 5, used with GetBitValues, power is used as each bit must be multipled by an exponent
+        // Returns a single summed bit value in a set of 5
         private static UInt32 Power(Int32 value, int power)
         {
-            // Default result to 0
+            // Result is value multiplied by 85 to an exponent (in the order: 4,3,2,1,0)
             UInt32 result = 0;
             double left = value;
             double right = 0;
             if (power == 0)
-                right = 1;
+                right = 1; // Final value is not multiplied by 85 so just set right to 1 to leave left unchanged
             else
                 right = Math.Pow(85, power);
 
+            // Multiply value by 85 to the power of N
             double sum = left * right;
 
+            // Convert result to an Unsigned Int32 to handle overflows in Int32
             result = Convert.ToUInt32(sum);
 
             return result;
