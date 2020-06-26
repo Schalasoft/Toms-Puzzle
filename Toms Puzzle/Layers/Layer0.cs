@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Toms_Puzzle.Decoders;
 
 namespace Toms_Puzzle.Layers
@@ -12,7 +13,7 @@ namespace Toms_Puzzle.Layers
             Span<byte> bytes = decoder.Decode(payload);
 
             // Convert to string
-            string result = System.Text.Encoding.Default.GetString(bytes);
+            string result = Encoding.ASCII.GetString(bytes);
 
             return result;
         }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 // CDG Needs cleaned up, doing a lot of bad practices to get the decoding working inititally : Make it work, make it right, make it fast
 namespace Toms_Puzzle.Decoders
@@ -25,6 +27,9 @@ namespace Toms_Puzzle.Decoders
         {
             List<byte> bytes = new List<byte>();
 
+            // Any padding we had to add to the last tuple
+            int padding = 0; 
+
             // Grab 5 ASCII85 characters at a time
             for (int i = 0; i < text.Length; i += 5)
             {
@@ -36,11 +41,16 @@ namespace Toms_Puzzle.Decoders
                     // Get 5 characters
                     ascii85 = text.Substring(i, 5);
                 }
-                else // Special case for an incomplete end 5-tuple (pad with zero bytes) // CDG not sure if its always missing only 3 values
+                else // Special case for an incomplete end 5-tuple (pad with zero bytes)
                 {
-                    // Pad end value with zero bytes as we ignore them
+                    // Grab the incomplete tuple   
                     ascii85 = text.Substring(i, text.Length - i);
-                    ascii85 += "YkO"; // These values will zero out the first 3 bytes in the bit value
+
+                    // Pad end value with max value as we ignore them
+                    ascii85 = ascii85.PadRight(5, 'u');
+
+                    // Set the padding amount we used
+                    padding = 5 - (text.Length - i);
                 }
 
                 // Get the 5 base values from the text
@@ -52,13 +62,14 @@ namespace Toms_Puzzle.Decoders
                 }
 
                 // Get 32-bit Value
-                Int32 bitValue = Get32BitValue(baseValues);
+                UInt32 bitValue = Get32BitValue(baseValues);
 
                 // Add the bytes from the 32-bit value to the return list (reversed due to big endian)
                 bytes.AddRange(BitConverter.GetBytes(bitValue).Reverse());
             }
 
-            return new Span<byte>(bytes.ToArray());
+            // Return bytes but removing any padding bytes due to an incomplete tuple
+            return new Span<byte>(bytes.Take(bytes.Count - padding).ToArray());
         }
 
         // Invert the characters base 85 representation
@@ -77,10 +88,10 @@ namespace Toms_Puzzle.Decoders
         }
 
         // Get the 32-bit value from the rebased characters
-        private static Int32 Get32BitValue(Int32[] values)
+        private static UInt32 Get32BitValue(Int32[] values)
         {
             // Get 32-bit value by summing and powering each of the 5 characters
-            Int32 bitValue = 0;
+            UInt32 bitValue = 0;
             int power = 4;
             for (int i = 0; i < values.Length; i++)
             {
@@ -91,26 +102,20 @@ namespace Toms_Puzzle.Decoders
         }
 
         // Returns a single summed bit value in a set of 5, used with GetBitValues, power is used as each bit must be multipled by an exponent
-        private static Int32 Power(Int32 value, int power)
+        private static UInt32 Power(Int32 value, int power)
         {
-            // Default result to 33 as it is the smallest valid value to return
-            Int32 result = 33;
-            try
-            {
-                double left = value;
-                double right = 0;
-                if (power == 0)
-                    right = 1;
-                else
-                    right = Math.Pow(85, power);
+            // Default result to 0
+            UInt32 result = 0;
+            double left = value;
+            double right = 0;
+            if (power == 0)
+                right = 1;
+            else
+                right = Math.Pow(85, power);
 
-                double sum = left * right;
-                result = Convert.ToInt32(sum);
-            }
-            catch (OverflowException)
-            {
-                Console.WriteLine($"Value has caused an overflow: {0}", value);
-            }
+            double sum = left * right;
+
+            result = Convert.ToUInt32(sum);
 
             return result;
         }

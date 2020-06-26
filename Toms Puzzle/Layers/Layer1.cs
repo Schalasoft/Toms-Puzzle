@@ -12,11 +12,14 @@ namespace Toms_Puzzle.Layers
             // Decode the payload
             byte[] bytes = decoder.Decode(payload).ToArray();
 
+            // Get the plain text from the decoded bytes
+            string text = Encoding.ASCII.GetString(bytes);
+
             // Perform bit manipulations
             byte[] output = FlipRightShift(bytes);
 
-            // Convert to string
-            string result = Encoding.ASCII.GetString(output, 0, output.Length);
+            // Convert to string to get the actual payload
+            string result = Encoding.ASCII.GetString(output);
 
             return result;
         }
