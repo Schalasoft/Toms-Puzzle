@@ -1,7 +1,4 @@
-﻿
-using Toms_Puzzle.Decoders;
-
-namespace Toms_Puzzle.Layers
+﻿namespace Toms_Puzzle.Interfaces
 {
     public interface ILayer
     {

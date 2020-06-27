@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Toms_Puzzle.Decoders
+namespace Toms_Puzzle.Interfaces
 {
     public interface IDecoder
     {

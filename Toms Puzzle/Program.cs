@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Text.RegularExpressions;
-using Toms_Puzzle.Decoders;
+using Toms_Puzzle.Interfaces;
 using Toms_Puzzle.Factories;
 using Toms_Puzzle.Enumerations;
 using System;
