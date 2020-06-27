@@ -14,9 +14,14 @@ namespace Toms_Puzzle
         static string Directory = "..\\..\\..\\Data\\";
         private static string[] layerData = { "Layer0.txt", "Layer1.txt", "Layer2.txt", "Layer3.txt", "Layer4.txt", "Layer5.txt", "TheCore.txt" };
 
+        public static LayerFactory LayerFactory { get; private set; }
+
         // Main entry point
         static void Main(string[] args)
         {
+            // Create the layer factory
+            LayerFactory = new LayerFactory();
+
             // Decode all layers
             DecodeLayers();
         }
@@ -24,52 +29,52 @@ namespace Toms_Puzzle
         // Decode all layers
         private static void DecodeLayers()
         {
-            for (int i = 0; i < 6; i++)
-            {
-                // Input file
-                string outputData = DecodeLayer(i, layerData[i]);
-
-                // Output file
-                string outputFilename = layerData[i + 1];
-
-                // Output the entire layer payload, including the plaintext
-                File.WriteAllText($"{Directory}{outputFilename}", outputData);
-            }
-        }
-
-        // Decode a single layer
-        private static string DecodeLayer(int index, string data)
-        {
-            // Get the payload from the file data
-            string payload = GetPayload(data);
-
             // Create the decoder using the decoder factory
             DecoderFactory decoderFactory = new DecoderFactory();
             IDecoder decoder = decoderFactory.InititalizeDecoder(DecoderEnum.ASCII85Decoder);
 
-            // Create the layer factory
-            LayerFactory layerFactory = new LayerFactory();
+            for (int i = 0; i < 6; i++)
+            {
+                // Get the payload from the file data
+                string inputFile = GetPayload(layerData[i]);
 
+                // Input file
+                string outputFile = DecodeLayer(i, inputFile, decoder);
+
+                // Output file
+                string outputFilename = layerData[i + 1];
+
+                // Get the payload from the file data
+                string payload = GetPayload(layerData[i]);
+
+                // Output the entire layer payload, including the plaintext
+                File.WriteAllText($"{Directory}{outputFilename}", outputFile);
+            }
+        }
+
+        // Decode a single layer
+        private static string DecodeLayer(int index, string payload, IDecoder decoder)
+        {
             switch(index)
             {
                 // Decode layer using the appropriate layer logic and selected decoder
                 case 0:
-                    return layerFactory.InitializeLayer(LayerEnum.Layer0).Decode(payload, decoder);
+                    return LayerFactory.InitializeLayer(LayerEnum.Layer0).Decode(payload, decoder);
 
                 case 1:
-                    return layerFactory.InitializeLayer(LayerEnum.Layer1).Decode(payload, decoder);
+                    return LayerFactory.InitializeLayer(LayerEnum.Layer1).Decode(payload, decoder);
 
                 case 2:
-                    return layerFactory.InitializeLayer(LayerEnum.Layer2).Decode(payload, decoder);
+                    return LayerFactory.InitializeLayer(LayerEnum.Layer2).Decode(payload, decoder);
 
                 case 3:
-                    return layerFactory.InitializeLayer(LayerEnum.Layer3).Decode(payload, decoder);
+                    return LayerFactory.InitializeLayer(LayerEnum.Layer3).Decode(payload, decoder);
 
                 case 4:
-                    return layerFactory.InitializeLayer(LayerEnum.Layer4).Decode(payload, decoder);
+                    return LayerFactory.InitializeLayer(LayerEnum.Layer4).Decode(payload, decoder);
 
                 case 5:
-                    return layerFactory.InitializeLayer(LayerEnum.Layer5).Decode(payload, decoder);
+                    return LayerFactory.InitializeLayer(LayerEnum.Layer5).Decode(payload, decoder);
 
                 default:
                     throw new ArgumentException("Invalid layer index provided");
