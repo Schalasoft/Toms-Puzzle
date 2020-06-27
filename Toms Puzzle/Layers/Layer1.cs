@@ -4,16 +4,13 @@ using Toms_Puzzle.Decoders;
 
 namespace Toms_Puzzle.Layers
 {
-    class Layer1
+    class Layer1 : ILayer
     {
         // Decode, then Flip bits, followed by a right-shift
-        public static string DecodeLayer1(string payload, IDecoder decoder)
+        public string Decode(string payload, IDecoder decoder)
         {
             // Decode the payload
             byte[] bytes = decoder.Decode(payload).ToArray();
-
-            // Get the plain text from the decoded bytes
-            string text = Encoding.ASCII.GetString(bytes);
 
             // Perform bit manipulations
             byte[] output = FlipRightShift(bytes);
@@ -24,7 +21,7 @@ namespace Toms_Puzzle.Layers
             return result;
         }
 
-        private static byte[] FlipRightShift(byte[] bytes)
+        private byte[] FlipRightShift(byte[] bytes)
         {
             // Create a bitmask to only flip every second bit (read from right to left, true means flip that bit)
             BitArray flipMask = new BitArray(new bool[8] { true, false, true, false, true, false, true, false });

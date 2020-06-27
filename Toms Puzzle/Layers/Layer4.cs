@@ -8,10 +8,10 @@ using Toms_Puzzle.Utilities;
 namespace Toms_Puzzle.Layers
 {
     // Decode class
-    class Layer4
+    class Layer4 : ILayer
     {
         // Decode the layer
-        public static string DecodeLayer4(string payload, IDecoder decoder)
+        public string Decode(string payload, IDecoder decoder)
         {
             // Decode
             Span<byte> decodedBytes = decoder.Decode(payload);
@@ -34,7 +34,7 @@ namespace Toms_Puzzle.Layers
         }
 
         // Extract and return all valid payloads from the bytes in a list
-        private static List<byte[]> ExtractPayloads(byte[] bytes)
+        private List<byte[]> ExtractPayloads(byte[] bytes)
         {
             // Convert to a memory stream for convenience
             MemoryStream stream = new MemoryStream(bytes);

@@ -13,7 +13,7 @@ using static Toms_Puzzle.Utilities.ByteConverter;
 
 namespace Toms_Puzzle.Layers
 {
-    class Layer5
+    class Layer5 : ILayer
     {
         // Properties
         public static byte[] KeyEncryptingKey { get; private set; }
@@ -23,7 +23,7 @@ namespace Toms_Puzzle.Layers
         public static byte[] PayloadInitializationVector { get; private set; }
 
         // Decode the layer
-        public static string DecodeLayer5(string payload, IDecoder decoder)
+        public string Decode(string payload, IDecoder decoder)
         {
             // Decode
             Span<byte> bytes = decoder.Decode(payload);
@@ -47,7 +47,7 @@ namespace Toms_Puzzle.Layers
         }
 
         // Unwraps a wrapped key using a key encrypting key (KEK) and Initialization Vector (IV)
-        private static byte[] UnwrapKey()
+        private byte[] UnwrapKey()
         {
             // Create Bouncy Castle AES Wrap Engine
             IWrapper wrapper = new AesWrapEngine();
@@ -62,7 +62,7 @@ namespace Toms_Puzzle.Layers
         }
 
         // Decrypt the encrypted payload
-        private static byte[] Decrypt(byte[] encryptedData)
+        private byte[] Decrypt(byte[] encryptedData)
         {
             // Unwrap the KEK
             PayloadEncryptionKey = UnwrapKey();
@@ -78,7 +78,7 @@ namespace Toms_Puzzle.Layers
         }
 
         // Gets the AES keys and initialization vectors
-        private static void GetAES(MemoryStream stream)
+        private void GetAES(MemoryStream stream)
         {
             // Get 256-bit Key Encrypting Key (32 bytes)
             int kekSize = 32;
@@ -99,7 +99,7 @@ namespace Toms_Puzzle.Layers
         }
 
         // Get the encrypted payload from memory stream
-        private static byte[] GetEncryptedPayload(MemoryStream stream)
+        private byte[] GetEncryptedPayload(MemoryStream stream)
         {
             // Create byte array the same size as the data remaining in the stream
             byte[] payload = new byte[stream.Length - stream.Position];

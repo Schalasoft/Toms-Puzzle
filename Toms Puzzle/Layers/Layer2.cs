@@ -5,9 +5,9 @@ using Toms_Puzzle.Decoders;
 
 namespace Toms_Puzzle.Layers
 {
-    class Layer2
+    class Layer2 : ILayer
     {
-        public static string DecodeLayer2(string payload, IDecoder decoder)
+        public string Decode(string payload, IDecoder decoder)
         {
             // Decode the payload
             Span<byte> bytes = decoder.Decode(payload);
@@ -22,7 +22,7 @@ namespace Toms_Puzzle.Layers
         }
 
         // Parse the data and construct the valid dataset from valid bytes
-        private static byte[] ValidateData(byte[] bytes)
+        private byte[] ValidateData(byte[] bytes)
         {
             BitArray bits = new BitArray(bytes.Length * 7); // 7 data bits to combine from original so the length is 7 times larger
 
@@ -68,7 +68,7 @@ namespace Toms_Puzzle.Layers
         // If the sum of the 7 most significant bits are...
         // Even AND Parity bit is 0 : return true
         // Odd  AND Parity bit is 1 : return true
-        private static bool CheckParity(BitArray bitArray)
+        private bool CheckParity(BitArray bitArray)
         {
             // Default to false
             bool result = false;

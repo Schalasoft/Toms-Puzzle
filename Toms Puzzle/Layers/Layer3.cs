@@ -7,10 +7,10 @@ using static Toms_Puzzle.Utilities.ExtensionMethods;
 
 namespace Toms_Puzzle.Layers
 {
-    class Layer3
+    class Layer3 : ILayer
     {
         // Decode layer 3
-        public static string DecodeLayer3(string payload, IDecoder decoder)
+        public string Decode(string payload, IDecoder decoder)
         {
             // Decode the payload
             Span<byte> bytes = decoder.Decode(payload);
@@ -25,7 +25,7 @@ namespace Toms_Puzzle.Layers
         }
 
         // Decrypt payload using a 32 byte cycled key
-        private static byte[] Decrypt(byte[] bytes)
+        private byte[] Decrypt(byte[] bytes)
         {
             // Determine the cycled key
             byte[] cycledKey = DetermineCycledKey(bytes);
@@ -47,7 +47,7 @@ namespace Toms_Puzzle.Layers
         // Then xoring the encrypted text (C)
         // with the decrypted text        (A)
         // to get the encryption key      (B)
-        private static byte[] DetermineCycledKey(byte[] bytes)
+        private byte[] DetermineCycledKey(byte[] bytes)
         {
             // Data we expect to be in the payload (32 chars)
             const string expectedSequence = "--------------------------------";
@@ -80,7 +80,7 @@ namespace Toms_Puzzle.Layers
         }
 
         // Determine a cycled key using expected data
-        private static byte[] DetermineCycledKeyUsingExpected(byte[] bytes, string text)
+        private byte[] DetermineCycledKeyUsingExpected(byte[] bytes, string text)
         {
             // Get the bytes for the known text
             byte[] textBytes = Encoding.ASCII.GetBytes(text);
@@ -103,7 +103,7 @@ namespace Toms_Puzzle.Layers
         }
 
         // Takes in A and B and returns C from an XOR operation
-        private static byte xorDecrypt(byte a, byte b)
+        private byte xorDecrypt(byte a, byte b)
         {
             // Perform XOR
             BitArray partA = new BitArray(new byte[1] { a });
