@@ -99,9 +99,9 @@ namespace Toms_Puzzle.Decoders
         private static UInt32 Power(Int32 value, int power)
         {
             // Result is value multiplied by 85 to an exponent (in the order: 4,3,2,1,0)
-            UInt32 result = 0;
+            UInt32 result;
             double left = value;
-            double right = 0;
+            double right;
             if (power == 0)
                 right = 1; // Final value is not multiplied by 85 so just set right to 1 to leave left unchanged
             else

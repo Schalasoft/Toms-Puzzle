@@ -49,7 +49,7 @@ namespace Toms_Puzzle.Utilities
             // Get IPv4 Header properties (20 bytes)
             byte[] IPHeader = ByteArrayFromMemoryStream(stream, IPHeaderLength); // Store the full header for checksum validation
             MemoryStream IPHeaderStream = new MemoryStream(IPHeader);
-            GetBytes(IPHeaderStream, 9); // Version to Time to Live (remove bytes we don't care about)
+            GetBytes(IPHeaderStream, 9); // 'Version' to 'Time to Live' (remove bytes we don't care about)
             byte[] protocolBytes = GetBytes(IPHeaderStream, 1);
             GetBytes(IPHeaderStream, 2);
             byte[] sourceIPBytes = GetBytes(IPHeaderStream, 4);
