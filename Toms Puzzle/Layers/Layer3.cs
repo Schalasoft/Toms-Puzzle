@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Linq;
 using System.Text;
-using Toms_Puzzle.Decoders;
+using Toms_Puzzle.Interfaces;
 using static Toms_Puzzle.Utilities.ExtensionMethods;
 
 namespace Toms_Puzzle.Layers

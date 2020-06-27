@@ -4,7 +4,7 @@
 
 using System;
 using System.IO;
-using Toms_Puzzle.Decoders;
+using Toms_Puzzle.Interfaces;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Parameters;

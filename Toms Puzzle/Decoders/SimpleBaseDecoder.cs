@@ -1,4 +1,5 @@
 ﻿using System;
+using Toms_Puzzle.Interfaces;
 
 namespace Toms_Puzzle.Decoders
 {

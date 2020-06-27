@@ -1,6 +1,7 @@
 ﻿using System;
 using Toms_Puzzle.Decoders;
 using Toms_Puzzle.Enumerations;
+using Toms_Puzzle.Interfaces;
 
 namespace Toms_Puzzle.Factories
 {

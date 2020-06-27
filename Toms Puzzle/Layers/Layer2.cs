@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Text;
-using Toms_Puzzle.Decoders;
+using Toms_Puzzle.Interfaces;
 
 namespace Toms_Puzzle.Layers
 {

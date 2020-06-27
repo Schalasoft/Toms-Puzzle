@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Toms_Puzzle.Decoders;
+using Toms_Puzzle.Interfaces;
 using Toms_Puzzle.Utilities;
 
 namespace Toms_Puzzle.Layers
