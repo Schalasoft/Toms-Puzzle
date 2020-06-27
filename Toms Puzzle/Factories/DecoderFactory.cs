@@ -7,7 +7,7 @@ namespace Toms_Puzzle.Factories
     class DecoderFactory
     {
         // Set the decoder to be used
-        public IDecoder InititalizeDecoder(DecoderEnum type)
+        public static IDecoder InititalizeDecoder(DecoderEnum type)
         {
             // Initialize the appropriate decoder
             switch(type)

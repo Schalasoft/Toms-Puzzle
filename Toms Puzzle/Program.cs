@@ -14,14 +14,9 @@ namespace Toms_Puzzle
         static string Directory = "..\\..\\..\\Data\\";
         private static string[] layerData = { "Layer0.txt", "Layer1.txt", "Layer2.txt", "Layer3.txt", "Layer4.txt", "Layer5.txt", "TheCore.txt" };
 
-        public static LayerFactory LayerFactory { get; private set; }
-
         // Main entry point
         static void Main(string[] args)
         {
-            // Create the layer factory
-            LayerFactory = new LayerFactory();
-
             // Decode all layers
             DecodeLayers();
         }
@@ -30,8 +25,7 @@ namespace Toms_Puzzle
         private static void DecodeLayers()
         {
             // Create the decoder using the decoder factory
-            DecoderFactory decoderFactory = new DecoderFactory();
-            IDecoder decoder = decoderFactory.InititalizeDecoder(DecoderEnum.ASCII85Decoder);
+            IDecoder decoder = DecoderFactory.InititalizeDecoder(DecoderEnum.ASCII85Decoder);
 
             for (int i = 0; i < 6; i++)
             {
@@ -43,9 +37,6 @@ namespace Toms_Puzzle
 
                 // Output file
                 string outputFilename = layerData[i + 1];
-
-                // Get the payload from the file data
-                string payload = GetPayload(layerData[i]);
 
                 // Output the entire layer payload, including the plaintext
                 File.WriteAllText($"{Directory}{outputFilename}", outputFile);

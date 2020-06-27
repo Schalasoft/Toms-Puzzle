@@ -6,7 +6,7 @@ namespace Toms_Puzzle.Factories
 {
     class LayerFactory
     {
-        public ILayer InitializeLayer(LayerEnum type)
+        public static ILayer InitializeLayer(LayerEnum type)
         {
             // Initialize the appropriate decoder
             switch (type)
